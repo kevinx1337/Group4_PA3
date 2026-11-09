@@ -32,9 +32,26 @@ void print_array(const char *label, const int array[], int size) {
     printf("\n");
 }
 
-/* Placeholder for the sorting thread implementation. */
+/* Sorts this thread's part of the array from smallest to largest.
+ * The start pointer and size tell the thread which part is its own. */
 void *sort_thread(void *argument) {
-    (void)argument;
+    SubArray *part = (SubArray *)argument;
+    int *values = part->start;
+    int count = part->size;
+    int i, j, key;
+    
+    /* Insertion sort */
+    for (i = 1; i < count; i++) {
+        key = values[i];
+        j = i - 1;
+
+        /* Moves larger values one spot to the right */
+        while (j >= 0 && values[j] > key) {
+            values[j + 1] = values[j];
+            j--;
+        }
+        values[j + 1] = key;
+    }
     return NULL;
 }
 
