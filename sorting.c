@@ -112,8 +112,40 @@ void *sort_thread(void *argument) {
     return NULL;
 }
 
-/* Placeholder for the merging thread implementation. */
-void *merge_thread(void *argument) {
-    (void)argument;
+/*
+ * merge_thread: merges the two sorted subarrays
+ */
+void *merge_thread(void *argument)
+{
+    MergeParams *params = (MergeParams *)argument;
+    int left_index = 0;   //next unused index in the left subarray 
+    int right_index = 0;  // next unused index in the right subarray 
+    int result_index = 0; // next free index in result 
+
+    // While both sides have elements, copy the smaller front value 
+    while (left_index < params->left.size && right_index < params->right.size)
+    {
+        if (params->left.start[left_index] <= params->right.start[right_index])
+        {
+            result[result_index++] = params->left.start[left_index++];
+        }
+        else
+        {
+            result[result_index++] = params->right.start[right_index++];
+        }
+    }
+
+    // right side ran out, copy rest of left 
+    while (left_index < params->left.size)
+    {
+        result[result_index++] = params->left.start[left_index++];
+    }
+
+    //  left side ran out, copy rest of right
+    while (right_index < params->right.size)
+    {
+        result[result_index++] = params->right.start[right_index++];
+    }
+
     return NULL;
 }
