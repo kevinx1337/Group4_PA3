@@ -78,17 +78,6 @@ int main(void) {
     return 0;
 }
 
-/* Prints a label followed by the array values and a newline. */
-void print_array(const char *label, const int array[], int size) {
-    int index;
-
-    printf("%s", label);
-    for (index = 0; index < size; index++) {
-        printf(" %d", array[index]);
-    }
-    printf("\n");
-}
-
 /* Sorts this thread's part of the array from smallest to largest.
  * The start pointer and size tell the thread which part is its own. */
 void *sort_thread(void *argument) {
@@ -96,7 +85,7 @@ void *sort_thread(void *argument) {
     int *values = part->start;
     int count = part->size;
     int i, j, key;
-    
+
     /* Insertion sort */
     for (i = 1; i < count; i++) {
         key = values[i];
@@ -112,40 +101,44 @@ void *sort_thread(void *argument) {
     return NULL;
 }
 
-/*
- * merge_thread: merges the two sorted subarrays
- */
-void *merge_thread(void *argument)
-{
+/* Merges the sorted subarrays into result without changing either subarray. */
+void *merge_thread(void *argument) {
     MergeParams *params = (MergeParams *)argument;
-    int left_index = 0;   //next unused index in the left subarray 
-    int right_index = 0;  // next unused index in the right subarray 
-    int result_index = 0; // next free index in result 
+    int left_index = 0;
+    int right_index = 0;
+    int result_index = 0;
 
-    // While both sides have elements, copy the smaller front value 
-    while (left_index < params->left.size && right_index < params->right.size)
-    {
-        if (params->left.start[left_index] <= params->right.start[right_index])
-        {
+    /* Copy the smaller front value while both sides have elements. */
+    while (left_index < params->left.size && right_index < params->right.size) {
+        if (params->left.start[left_index] <= params->right.start[right_index]) {
             result[result_index++] = params->left.start[left_index++];
-        }
-        else
-        {
+        } else {
             result[result_index++] = params->right.start[right_index++];
         }
     }
 
-    // right side ran out, copy rest of left 
-    while (left_index < params->left.size)
-    {
+    /* Copy any values remaining in the left subarray. */
+    while (left_index < params->left.size) {
         result[result_index++] = params->left.start[left_index++];
     }
 
-    //  left side ran out, copy rest of right
-    while (right_index < params->right.size)
-    {
+    /* Copy any values remaining in the right subarray. */
+    while (right_index < params->right.size) {
         result[result_index++] = params->right.start[right_index++];
     }
 
     return NULL;
 }
+
+/* Prints a label followed by the array values and a newline. */
+void print_array(const char *label, const int array[], int size) {
+    int index;
+
+    printf("%s", label);
+    for (index = 0; index < size; index++) {
+        printf(" %d", array[index]);
+    }
+    printf("\n");
+}
+
+
