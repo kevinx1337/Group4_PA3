@@ -2,10 +2,11 @@
 
 ## Team Members
 
-- Saif Al Habashneh ([Saif21212](https://github.com/Saif21212))
-- [Bhavesh1024](https://github.com/Bhavesh1024)
-- [kevinx1337](https://github.com/kevinx1337)
-- [erik-elizar](https://github.com/erik-elizar)
+- Bhavesh Malhi
+- Erik Elizarraras
+- Jimmy Williams
+- Kevin Xiao
+- Saif Al Habashneh
 
 ## Description
 
